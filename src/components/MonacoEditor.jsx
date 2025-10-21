@@ -1,6 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import * as monaco from "monaco-editor";
 import { socket } from "../sockets/socket";
+import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
+import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
+import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
@@ -12,20 +15,10 @@ const styles = {
 };
 
 self.MonacoEnvironment = {
-  getWorker: function (workerId, label) {
-    if (label === "typescript" || label === "javascript") {
-      return new Worker(
-        new URL(
-          "monaco-editor/esm/vs/language/typescript/ts.worker",
-          import.meta.url
-        ),
-        { type: "module" }
-      );
-    }
-    return new Worker(
-      new URL("monaco-editor/esm/vs/editor/editor.worker", import.meta.url),
-      { type: "module" }
-    );
+  getWorker(_, label) {
+    if (label === "typescript" || label === "javascript") return new tsWorker();
+    if (label === "json") return new jsonWorker();
+    return new editorWorker();
   },
 };
 
