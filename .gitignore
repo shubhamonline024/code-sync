@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.
 note-app-frontend
+.env
 
 # Editor directories and files
 .vscode/*

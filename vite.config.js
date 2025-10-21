@@ -2,7 +2,18 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import monacoEditorPlugin from "vite-plugin-monaco-editor";
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), monacoEditorPlugin],
+  plugins: [
+    react(),
+    monacoEditorPlugin({
+      languageWorkers: [
+        "editorWorkerService",
+        "typescript",
+        "javascript",
+        "json",
+        "css",
+        "html",
+      ],
+    }),
+  ],
 });
